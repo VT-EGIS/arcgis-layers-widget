@@ -1,7 +1,6 @@
 define([
   'dojo/_base/declare',
   'dijit/_WidgetBase',
-  'dojo/text!./templates/layer_item.html',
   'dijit/_TemplatedMixin',
   './layer_item',
   './layer_list',
@@ -10,7 +9,7 @@ define([
   'dojo/_base/lang',
   './feature_layer_visibility_controller',
   './dynamic_layer_visibility_controller'
-], function (declare, _WidgetBase, layerItemTemplate, _TemplatedMixin,
+], function (declare, _WidgetBase, _TemplatedMixin,
              LayerItem, LayerList, _Container, array, lang,
              FLVisibilityCtrl, DLVisibilityCtrl) {
 
@@ -55,10 +54,10 @@ define([
 
       if(isGroupLayer) {
         active = false;
-        visibilityCtrl.hideLayer(layerInfo.id);
+        visibilityCtrl.hideLayer({ layerId: layerInfo.id });
       } else if(parentVisibility === true) {
         active = true;
-        visibilityCtrl.showLayer(layerInfo.id)
+        visibilityCtrl.showLayer({ layerId: layerInfo.id });
       } else {
         active = layerInfo.defaultVisibility;
       }
@@ -67,7 +66,7 @@ define([
 
       newListItem = new LayerItem({
         name: layerInfo.name || layerInfo.id,
-        id: layerInfo.id,
+        layerId: layerInfo.id,
         active: active,
         visibilityCtrl: visibilityCtrl
       });

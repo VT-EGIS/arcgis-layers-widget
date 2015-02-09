@@ -11,8 +11,8 @@ define([
 
       visibleLayers = this._parentLayer.visibleLayers;
       //show if not already shown
-      if(visibleLayers.indexOf(view.id) === -1) {
-        this._parentLayer.setVisibleLayers([].concat(visibleLayers, view.id));
+      if(visibleLayers.indexOf(view.layerId) === -1) {
+        this._parentLayer.setVisibleLayers([].concat(visibleLayers, view.layerId));
       }
     },
 
@@ -20,7 +20,7 @@ define([
       var index, visibleLayers;
 
       visibleLayers = this._parentLayer.visibleLayers;
-      index = visibleLayers.indexOf(view.id);
+      index = visibleLayers.indexOf(view.layerId);
       //hide if not already hidden
       if(index !== -1) {
         visibleLayers.splice(index, 1)
