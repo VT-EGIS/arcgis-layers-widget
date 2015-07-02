@@ -31,7 +31,13 @@ define([
     addLayersWidget: function () {
       this.layersWidget = new Layers({
         layers: this.layers,
-        'class': 'layers-list'
+        'class': 'layers-list',
+        onLayerOff: function (layerName) {
+          console.log('Layer "' + layerName + '" was turned off');
+        },
+        onLayerOn: function (layerName) {
+          console.log('Layer "' + layerName + '" was turned on');
+        }
       });
 
       this.layersDialog = new Dialog({
