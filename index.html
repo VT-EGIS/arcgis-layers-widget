@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no'>
+    <meta name='description' content='ArcGIS Layers Widget Example'>
+    <title>ArcGIS Layers Widget Example</title>
+    <link rel='stylesheet' href='//js.arcgis.com/3.13/dijit/themes/claro/claro.css'>
+    <link rel='stylesheet' href='//js.arcgis.com/3.13/esri/css/esri.css'>
+
+    <style>
+      /* Styles required for the layers widget */
+      .layers-list {
+        list-style-type: none;
+      }
+
+      .hidden-layer, .hidden-layer:active, .hidden-layer:visited{
+        color: #888;
+      }
+    </style>
+
+    <style>
+      /* General style rules */
+      html,body { height: 100%; margin: 0px; padding: 0px; }
+
+      #map {
+        height: 100% !important;
+      }
+
+      #layers {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 3;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: white;
+      }
+
+      #layers-dialog_underlay {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body class='claro'>
+    <button id='layers'>Layers</button>
+    <div id='map'></div>
+
+    <script>
+      (function() {
+        var packagePath = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+
+        window.dojoConfig = {
+          packages: [
+            { name: 'app', location: packagePath + '/js' } ,
+            { name: 'layersWidget', location: packagePath + '/src' }
+          ]
+        };
+      }());
+    </script>
+
+    <script src='//js.arcgis.com/3.13/'></script>
+
+    <script>
+      require([
+        'app',
+        'dojo/domReady!',
+      ], function (App) {
+        new App();
+      });
+    </script>
+
+  </body>
+</html>
