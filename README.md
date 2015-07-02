@@ -11,7 +11,7 @@ require([
   var layersWidget = new Layers({
     layers: layersList,
     'class': 'layers-list' //This class is going to be applied to all ul elements (even nested ones)
-  });
+  }, 'id-of-widget');
   ...
 }); 
 ```
