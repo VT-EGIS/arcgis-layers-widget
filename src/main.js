@@ -41,7 +41,9 @@ define([
         this.addChild(new LayerItem({
           name: layer.id,
           active: layer.hideOnStartup ? false : layer.defaultVisibility,
-          visibilityCtrl: new FLVisibilityCtrl(layer)
+          visibilityCtrl: new FLVisibilityCtrl(layer),
+          onLayerOn: this.onLayerOn,
+          onLayerOff: this.onLayerOff
         }));
       }
     },
@@ -80,7 +82,9 @@ define([
         name: layerInfo.name || layerInfo.id,
         layerId: layerInfo.id,
         active: active,
-        visibilityCtrl: visibilityCtrl
+        visibilityCtrl: visibilityCtrl,
+        onLayerOn: this.onLayerOn,
+        onLayerOff: this.onLayerOff
       });
       list.addChild(newListItem);
 
