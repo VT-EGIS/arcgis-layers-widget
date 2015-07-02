@@ -46,8 +46,6 @@ define([
       }
     },
 
-    // TODO Extend the layerInfo object with this method during initialization
-    // of app (method should be defined in helpers)
     hasChildren: function (layerInfo) {
       return layerInfo.subLayerIds && layerInfo.subLayerIds.length > 0;
     },
@@ -64,13 +62,14 @@ define([
 
       // If the group layer is visible then hide it and
       // make all of its children visible instead
+      // Or if the configuration specifies hideOnStartup then hide it
       if(isGroupLayer || parentVisibility === false) {
         active = false;
         visibilityCtrl.hideLayer({ layerId: layerInfo.id });
       } else if(parentVisibility === true) {
         active = true;
         visibilityCtrl.showLayer({ layerId: layerInfo.id });
-      // Otherwise just use the default visibility
+      // Otherwise just use the default visibility (parentVisibility is undefined)
       } else {
         active = layerInfo.defaultVisibility;
       }
@@ -90,19 +89,13 @@ define([
         subList = new LayerList({ 'class': this['class'] });
         newListItem.addChild(subList);
 
-        if(parentVisibility === true) {
-          visibility = true;
-        } else if (parentVisibility === false) {
-          visibility = false;
-        } else {
-          visibility = layerInfo.defaultVisibility;
-        }
-
-        array.forEach(layerInfo.subLayerIds, function (id, index) {
+        visibility = parentVisibility ? parentVisibility : layerInfo.defaultVisibility;
+        
+        array.forEach(layerInfo.subLayerIds, lang.hitch(this, function (id, index) {
           this.traverseLayerHierarchy(layerInfos, layerInfo.subLayerIds[index],
                                       visited, subList, visibilityCtrl,
                                       visibility);
-        }.bind(this));
+        }));
 
         // After all children have been processed, update the visibility of parent
         // ul and parent li

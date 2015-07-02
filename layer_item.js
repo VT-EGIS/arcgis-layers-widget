@@ -59,6 +59,7 @@ define([
       domClass.remove(dojoQuery('a', this.domNode)[0], 'visible-layer');
       domClass.add(dojoQuery('a', this.domNode)[0], 'hidden-layer');
 
+      // Go down the tree
       if(updateLayerVisibility) {
         children = this.getChildren();
 
