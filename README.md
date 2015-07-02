@@ -14,13 +14,13 @@ require([
   });
   ...
 }); 
+```
 
 The `layersList` is an array of esri layers.
 For now only FeatureLayer and ArcGISDynamicMapServiceLayer types are supported.
 The `id` of the layer is used as the label.
 To hide a layer at the start, set the `hideOnStartup` flag of the layer to true.
 
-```
 **Basic CSS Styling**
 ```css
 .layers-list {
