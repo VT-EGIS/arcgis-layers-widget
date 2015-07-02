@@ -2,7 +2,7 @@ Usage
 -----
 
 **JavaScript**
-```
+```javascript
 require([
   ...
   'layersWidget'
@@ -22,7 +22,7 @@ To hide a layer at the start, set the `hideOnStartup` flag of the layer to true.
 
 ```
 **Basic CSS Styling**
-```
+```css
 .layers-list {
   list-style-type: none;
 }
