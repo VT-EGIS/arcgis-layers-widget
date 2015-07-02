@@ -11,7 +11,9 @@ define([
 
     postCreate: function () {
       this.active = true;
-      this.on('click', lang.hitch(this, '_processClick'));
+      // This always catches events that bubble up from its children
+      // that are links because a ul is not clickable
+      this.on('click', lang.hitch(this, 'updateVisibility'));
     },
 
     activate: function () {
@@ -27,7 +29,6 @@ define([
     },
 
     updateVisibility: function () {
-      // This always catches events that bubble up from its children
       var activeChildren;
 
       activeChildren = array.filter(this.getChildren(), function (child) {
@@ -35,10 +36,6 @@ define([
       });
 
       this.active = (activeChildren.length === 0) ? false : true;
-    },
-
-    _processClick: function (evt) {
-      this.updateVisibility();
     }
   });
 });

@@ -4,17 +4,21 @@ define([
   'dijit/_TemplatedMixin',
   'dijit/_Container',
   'dojo/_base/lang',
-  'gameday/helpers',
   'dojo/query',
   'dojo/dom-class',
   'dojo/_base/array'
-], function (declare, _WidgetBase, _TemplatedMixin, _Container, lang, Helpers,
+], function (declare, _WidgetBase, _TemplatedMixin, _Container, lang, 
              dojoQuery, domClass, array) {
   return declare([_WidgetBase, _TemplatedMixin, _Container], {
     templateString: '<li><a href="#">${formattedName}</a></li>', 
 
+    capitalize: function (string) {
+      if(!string) { return; }
+      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    },
+
     postMixInProperties: function () {
-      this.formattedName = Helpers.capitalize(this.name);
+      this.formattedName = this.capitalize(this.name);
     },
 
     postCreate: function () {
@@ -22,15 +26,22 @@ define([
       this.on('click', lang.hitch(this, '_processClick'));
     },
 
-    activate: function (cascade) {
+    // This either just changes the css styles or actually shows the 
+    // layer on the map depending on the updateLayerVisibility flag
+    activate: function (updateLayerVisibility) {
       var children;
 
       this.active = true;
       domClass.remove(dojoQuery('a', this.domNode)[0], 'hidden-layer');
+      domClass.add(dojoQuery('a', this.domNode)[0], 'visible-layer');
 
-      if(cascade) {
+      // Go down the tree
+      if(updateLayerVisibility) {
         children = this.getChildren();
 
+        // Not setting the updateLayerVisibility flag as the child is always a ul
+        // handled by a LayerList which will set the updateLayerVisibility flag to
+        // true by default during activate
         if(children.length) {
           array.forEach(children, function (child) { child.activate(); });
         } else {
@@ -39,15 +50,21 @@ define([
       }
     },
 
-    deactivate: function (cascade) {
+    // This either just changes the css styles or actually hides the 
+    // layer on the map depending on the updateLayerVisibility flag
+    deactivate: function (updateLayerVisibility) {
       var children;
 
       this.active = false;
+      domClass.remove(dojoQuery('a', this.domNode)[0], 'visible-layer');
       domClass.add(dojoQuery('a', this.domNode)[0], 'hidden-layer');
 
-      if(cascade) {
+      if(updateLayerVisibility) {
         children = this.getChildren();
 
+        // Not setting the updateLayerVisibility flag as the child is always a ul
+        // handled by a LayerList which will set the updateLayerVisibility flag to
+        // false by default during deactivate
         if(children.length) {
           array.forEach(children, function (child) { child.deactivate(); });
         } else {
@@ -56,8 +73,14 @@ define([
       }
     },
 
-    toggle: function (cascade) {
-      this.active ? this.deactivate(cascade) : this.activate(cascade);
+    toggle: function (updateLayerVisibility) {
+      if(this.active) {
+        this.deactivate(updateLayerVisibility);
+        //TODO Emit event with this.name
+      } else {
+        this.activate(updateLayerVisibility);
+        //TODO Emit event with this.name
+      }
     },
 
     updateVisibility: function () {
@@ -78,10 +101,10 @@ define([
       evt.preventDefault();
     
       if(evt.target === dojoQuery('a', this.domNode)[0]) {
-        //Top down
+        // Process from top down
         this.toggle(true);
       } else {
-        //Bottom up
+        // Process from bottom up
         this.updateVisibility();
       }
     }

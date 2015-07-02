@@ -23,7 +23,11 @@ define([
       index = visibleLayers.indexOf(view.layerId);
       //hide if not already hidden
       if(index !== -1) {
-        visibleLayers.splice(index, 1)
+        visibleLayers.splice(index, 1);
+        // Note: setVisibleLayers does not behave as expected when
+        // the array of layers is empty, we need to give it an
+        // array containing -1 (I think it's counterintuitive)
+        if(!visibleLayers.length) { visibleLayers = [-1]; }
         this._parentLayer.setVisibleLayers(visibleLayers);
       }
     }
