@@ -14,6 +14,8 @@ define([
 
     url: 'someUrl/FeatureServer/0',
 
+    defaultVisibility: true,
+
     _data: {
       features: [
       {

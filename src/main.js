@@ -40,11 +40,14 @@ define([
         }));
       // A feature layer
       } else {
-        if(layer.hideOnStartup) { layer.hide(); }
+        visibilityCtrl = new FLVisibilityCtrl(layer);
+
+        if(layer.hideOnStartup) { visibilityCtrl.hideLayer(); }
+
         this.addChild(new LayerItem({
           name: layer.id,
           active: layer.hideOnStartup ? false : layer.defaultVisibility,
-          visibilityCtrl: new FLVisibilityCtrl(layer),
+          visibilityCtrl: visibilityCtrl,
           onLayerOn: this.onLayerOn,
           onLayerOff: this.onLayerOff
         }));
@@ -96,7 +99,7 @@ define([
         subList = new LayerList({ 'class': this['class'] });
         newListItem.addChild(subList);
 
-        visibility = parentVisibility ? parentVisibility : layerInfo.defaultVisibility;
+        visibility = typeof(parentVisibility) !== 'undefined' ? parentVisibility : layerInfo.defaultVisibility;
         
         array.forEach(layerInfo.subLayerIds, lang.hitch(this, function (id, index) {
           this.traverseLayerHierarchy(layerInfos, layerInfo.subLayerIds[index],
