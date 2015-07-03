@@ -77,10 +77,10 @@ define([
     toggle: function (updateLayerVisibility) {
       if(this.active) {
         this.deactivate(updateLayerVisibility);
-        this.onLayerOff(this.name);
+        this.onLayerOff && this.onLayerOff(this.name);
       } else {
         this.activate(updateLayerVisibility);
-        this.onLayerOn(this.name);
+        this.onLayerOn && this.onLayerOn(this.name);
       }
     },
 

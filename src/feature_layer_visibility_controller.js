@@ -1,8 +1,12 @@
 define([
-  'dojo/_base/declare'
-], function (declare) {
+  'dojo/_base/declare',
+  'esri/layers/FeatureLayer'
+], function (declare, FeatureLayer) {
   return declare([], {
     constructor: function (layer) {
+      if(!(layer && layer instanceof FeatureLayer)) {
+        throw new Error('Argument "layer" is missing');
+      }
       this._layer = layer;
     },
 

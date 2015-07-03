@@ -1,8 +1,12 @@
 define([
-  'dojo/_base/declare'
-], function (declare) {
+  'dojo/_base/declare',
+  'esri/layers/ArcGISDynamicMapServiceLayer'
+], function (declare, ArcGISDynamicMapServiceLayer) {
   return declare([], {
     constructor: function (parentLayer) {
+      if(!(parentLayer && parentLayer instanceof ArcGISDynamicMapServiceLayer)) {
+        throw new Error('Argument "layer" is missing');
+      } 
       this._parentLayer = parentLayer;
     },
 

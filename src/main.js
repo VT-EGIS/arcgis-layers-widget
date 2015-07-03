@@ -16,6 +16,9 @@ define([
     templateString: '<ul></ul>',
 
     postCreate: function () {
+      if(!(this.layers && (this.layers instanceof Array))) {
+        throw new Error('The option "layers" is required');
+      }
       array.map(this.layers, lang.hitch(this, 'processLayer'));
     },
 
