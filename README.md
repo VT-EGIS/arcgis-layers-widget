@@ -38,7 +38,11 @@ require([
   color: #888;
 }
 ```
-Feel free to apply styles that you prefer.
+
+Feel free to apply styles that you prefer. The classes that need to be overridden are
+
+* .hidden-layer
+* .visible-layer
 
 For a complete example, please see the [example directory](http://vt-egis.github.io/arcgis-layers-widget/) in the source repository.
 
